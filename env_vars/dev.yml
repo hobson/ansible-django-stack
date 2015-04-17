@@ -41,12 +41,11 @@ smtp_host: smtp.gmail.com
 smtp_user: admin@totalgood.com
 smtp_password: "{{ lookup('env','GMAIL_TG_PASSWORD') }}"
 
-
 # Application settings.
 django_settings_file: settings
 django_secret_key: "{{ lookup('env','DJ_SECRET_KEY') }}"
 django_admin_user: "admin"
-django_admin_password_hashed: "pbkdf2_sha256$20000$oLag06fBLQSW$YRBj9ClGYS581ZtPdRK/Dg3E6+31G0EipX/kHGH5olQ="
+django_admin_password_hashed: "{{ lookup('env','DJ_ADMIN_PASSWORD_HASHED') }}"
 
 run_django_syncdb: yes
 run_django_migrate: yes

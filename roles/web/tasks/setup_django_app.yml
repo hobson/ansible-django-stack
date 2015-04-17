@@ -19,6 +19,14 @@
 - name: Install packages required by the Django app inside virtualenv
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
 
+- name: "Ensure {{ project_path }}/{{ application_name }}/fixtures/ exists"
+  file: path="{{ application_path }}/fixtures" state=directory
+
+- name: Create an initial_data fixture with a predefined Django superuser (for admin interface)
+  template: src=initial_data.json.j2 dest="{{ application_path }}/fixtures/initial_data.json" backup=no
+  when: django_admin
+  tags: django.admin
+
 - name: Run the Django syncdb command
   django_manage:
     command: syncdb
@@ -29,6 +37,7 @@
   when: run_django_syncdb
   tags: django.syncdb
 
+
 - name: Run Django migrations
   django_manage:
     command: migrate
@@ -38,11 +47,6 @@
   environment: django_environment
   when: run_django_migrate
   tags: django.migrate
-
-- name: Create a Djano superuser (for admin interface)
-  template: src=initial_data.json.j2 dest="{{ application_path }}/fixtures/initial_data.json" backup=no
-  when: django_admin
-  tags: django.admin
 
 - name: Run Django collectstatic
   django_manage:

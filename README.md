@@ -1,7 +1,7 @@
 ansible-django-stack
 ====================
 
-Shameless recyclying of [Johnathan Calazan's](https://github.com/jcalazan) [ansible playbook](https://github.com/jcalazan/ansible-django-stack)) for deploying django apps. It knows how to install and configure these applications to play nice together:
+Shameless recyclying of [Jonathan Calazan's](https://github.com/jcalazan) ansible [playbook](https://github.com/jcalazan/ansible-django-stack) for deploying django apps. It knows how to install and configure these applications to play nice together:
 - Nginx
 - Gunicorn
 - PostgreSQL
@@ -11,13 +11,39 @@ Shameless recyclying of [Johnathan Calazan's](https://github.com/jcalazan) [ansi
 - Celery
 - RabbitMQ
 
-This version also creates a default Django admin superuser account and pull passwords and keys from environment variables (instead of ansible vault).
+This version adds support for Django 1.8 and the following troublesome python packages (tedious binary dependencies):
+- BeautifulSoup
+- bleach
+- boto
+- django-annoying
+- django-celery-with-redis
+- django-mailgun
+- django-nose
+- django-storages
+- dropbox
+- ecdsa
+- Fabric
+- ipython
+- Markdown
+- oauthlib
+- pyembed-markdown
+- sqlparse
 
-Default settings are stored in ```roles/role_name/vars/main.yml```.  Environment-specific settings are in the ```env_vars``` directory.
+Default settings are in ```roles/role_name/vars/main.yml```.
 
-**Tested with OS:** Ubuntu 12.04.4 LTS x64
+This penny-pinching, roll-your-own version of Jonathan's playbook stores secrets in OS environment variables rather than [Ansible Vault](https://docs.ansible.com/playbooks_vault.html). The ```env_vars/``` playbooks pull these env variables into ansible. A bash script listing these environment variables is in ```roles/base/files/passwords_and_keys.sh```. You'll want to copy this file to a safe location, populate it with real passwords and keys, and then run it before you launch your ansible playbook. It also makes things easier if you've set up ssh keys (passwordless logon) for all your target servers. That way, to deploy your shiny new Django app, you just...
 
-**Tested with Cloud Providers:** Amazon, Rackspace, Digital Ocean
+    source passwords_and_keys.sh && ansible-playbook -i server_IP_address_or_hostname, -v development.yml
+
+Note the comma after server_IP_address_or_hostname!!!
+
+**Tested OSes:** 
+- Ubuntu 14.04.4 LTS x64
+
+**Tested Cloud Providers:** 
+- [Linode](linode.com)
+
+But Jonathan's original playbook worked with Ubuntu 12.04.4 LTS x64 on Amazon (AWS), Rackspace, and Digital Ocean
 
 ## Getting Started
 A quick way to get started is with Vagrant and VirtualBox.
