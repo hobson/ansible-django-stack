@@ -1,6 +1,6 @@
 ---
 
-- name: Install dev pacakges required by the Django app requirements.txt (gnureadline cffi )
+- name: Install dev packages required by the Django app requirements.txt (gnureadline cffi)
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
   with_items:
     - libreadline-dev
@@ -21,7 +21,7 @@
 
 - name: Run the Django syncdb command
   django_manage:
-    command: migrate
+    command: syncdb
     app_path: "{{ application_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
@@ -29,15 +29,20 @@
   when: run_django_syncdb
   tags: django.syncdb
 
-- name: Run Django South migrations
+- name: Run Django migrations
   django_manage:
     command: migrate
     app_path: "{{ application_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
   environment: django_environment
-  when: run_django_south_migration
+  when: run_django_migration
   tags: django.migrate
+
+- name: Create a Djano superuser (for admin interface)
+  template: src=initial_data.json.j2 dest="{{ application_path }}/fixtures/initial_data.json" backup=no
+  when: django_admin
+  tags: django.admin
 
 - name: Run Django collectstatic
   django_manage:
@@ -48,6 +53,7 @@
   environment: django_environment
   when: run_django_collectstatic
   tags: django.collectstatic
+
 
 
 
