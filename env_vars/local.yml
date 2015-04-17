@@ -47,5 +47,7 @@ django_settings_file: settings
 django_secret_key: "{{ lookup('env','DJ_SECRET_KEY') }}"
 
 run_django_syncdb: yes
+run_django_migrate: yes
 run_django_south_migration: no
 run_django_collectstatic: yes
+django_admin: yes

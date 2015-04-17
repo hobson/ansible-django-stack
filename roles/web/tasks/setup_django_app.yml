@@ -36,7 +36,7 @@
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
   environment: django_environment
-  when: run_django_migration
+  when: run_django_migrate
   tags: django.migrate
 
 - name: Create a Djano superuser (for admin interface)
