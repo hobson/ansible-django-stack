@@ -22,7 +22,7 @@ server {
     client_max_body_size 4G;
 
     access_log {{ nginx_access_log_file }};
-    error_log {{ nginx_error_log_file }};
+    error_log {{ nginx_error_log_file }} {{ nginx_log_level }};
 
     location /static/ {
         alias   {{ nginx_static_dir }};

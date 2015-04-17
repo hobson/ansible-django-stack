@@ -26,6 +26,10 @@
     - supervisor
   tags: packages
 
+- name: Upgrade pip to latest
+  command: pip install --upgrade pip
+  tags: packages
+
 - name: Install newrelic
   pip: name=newrelic
   tags: packages

@@ -1,11 +1,27 @@
 ---
 
+- name: Install dev pacakges required by the Django app requirements.txt (gnureadline cffi )
+  apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
+  with_items:
+    - libreadline-dev
+    - libterm-readline-gnu-perl
+    - libreadline6
+    - libreadline6-dev
+    - libreadline-dev
+    - libncurses5
+    - libncurses5-dev
+    - libmemcached-dev
+    - zlib1g-dev
+    - libssl-dev
+    - libffi-dev
+  tags: packages
+
 - name: Install packages required by the Django app inside virtualenv
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
 
 - name: Run the Django syncdb command
   django_manage:
-    command: syncdb
+    command: migrate
     app_path: "{{ application_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"

@@ -33,7 +33,7 @@ rabbitmq_application_password: "{{ lookup('env','RMQ_APP_PASSWORD') }}"
 
 # Celery settings.
 celery_num_workers: 2
-celery_application_settings_file: settings.dev
+celery_application_settings_file: settings
 
 
 # SMTP settings.
@@ -43,8 +43,10 @@ smtp_password: "{{ lookup('env','GMAIL_TG_PASSWORD') }}"
 
 
 # Application settings.
-django_settings_file: settings.dev
+django_settings_file: settings
 django_secret_key: "{{ lookup('env','DJ_SECRET_KEY') }}"
+django_admin_user: "admin"
+django_admin_password_hashed: "pbkdf2_sha256$20000$oLag06fBLQSW$YRBj9ClGYS581ZtPdRK/Dg3E6+31G0EipX/kHGH5olQ="
 
 run_django_syncdb: yes
 run_django_south_migration: no

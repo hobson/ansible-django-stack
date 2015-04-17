@@ -12,14 +12,19 @@ NUM_WORKERS={{ gunicorn_num_workers }}
 # code will be reloaded on every request).
 MAX_REQUESTS={{ gunicorn_max_requests }}
 
-echo "Starting $NAME as `whoami`"
+echo "Starting app $NAME in $DJANGODIR as user "`whoami`" in from script in "`pwd`
 
-# Activate the virtual environment.
 cd $DJANGODIR
+# Activate the virtual environment.
 . ../../bin/activate
 
+cd $DJANGODIR
 # Set additional environment variables.
 . ../../bin/postactivate
+
+echo "finished postactivate"
+
+echo "Starting app $NAME in $DJANGODIR with exec gunicorn --name $NAME --workers $NUM_WORKERS --max-requests $MAX_REQUESTS --user $USER --group $GROUP --log-level {{ gunicorn_log_level }} --bind unix:$SOCKFILE {{ application_name }}.wsgi"
 
 # Create the run directory if it doesn't exist.
 RUNDIR=$(dirname $SOCKFILE)
