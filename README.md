@@ -1,7 +1,7 @@
 ansible-django-stack
 ====================
 
-Ansible Playbook designed for environments running a Django app.  It can install and configure these applications that are commonly used in production Django deployments:
+Shameless recyclying of [Johnathan Calazan's](https://github.com/jcalazan) [ansible playbook](https://github.com/jcalazan/ansible-django-stack)) for deploying django apps. It knows how to install and configure these applications to play nice together:
 - Nginx
 - Gunicorn
 - PostgreSQL
@@ -10,6 +10,8 @@ Ansible Playbook designed for environments running a Django app.  It can install
 - Memcached
 - Celery
 - RabbitMQ
+
+This version also creates a default Django admin superuser account and pull passwords and keys from environment variables (instead of ansible vault).
 
 Default settings are stored in ```roles/role_name/vars/main.yml```.  Environment-specific settings are in the ```env_vars``` directory.
 

@@ -49,6 +49,7 @@ django_admin_user: "admin"
 django_admin_password_hashed: "pbkdf2_sha256$20000$oLag06fBLQSW$YRBj9ClGYS581ZtPdRK/Dg3E6+31G0EipX/kHGH5olQ="
 
 run_django_syncdb: yes
+run_django_migrate: yes
 run_django_south_migration: no
 run_django_collectstatic: yes
 django_admin: yes
