@@ -43,7 +43,7 @@ Note the comma after server_IP_address_or_hostname!!!
 **Tested Cloud Providers:** 
 - [Linode](linode.com)
 
-But Jonathan's original playbook worked with Ubuntu 12.04.4 LTS x64 on Amazon (AWS), Rackspace, and Digital Ocean
+It may also work on Amazon (AWS), Rackspace, and Digital Ocean because Jonathan's original playbook (which this one barely modifies) worked with Ubuntu 12.04.4 LTS x64 on those machines.
 
 ## Getting Started
 A quick way to get started is with Vagrant and VirtualBox.
