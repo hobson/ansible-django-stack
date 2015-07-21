@@ -45,6 +45,8 @@ smtp_password: "{{ lookup('env','GMAIL_TG_PASSWORD') }}"
 # Application settings.
 django_settings_file: settings
 django_secret_key: "{{ lookup('env','DJ_SECRET_KEY') }}"
+django_admin_user: "admin"
+django_admin_password_hashed: "{{ lookup('env','DJ_ADMIN_PASSWORD_HASHED') }}"
 
 run_django_syncdb: yes
 run_django_migrate: yes

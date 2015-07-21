@@ -22,7 +22,7 @@
 - name: "Ensure {{ project_path }}/{{ application_name }}/fixtures/ exists"
   file: path="{{ application_path }}/fixtures" state=directory
 
-- name: Create an initial_data fixture with a predefined Django superuser (for admin interface)
+- name: Create an initial_data fixture with a predefined Django superuser, {{ django_admin_user }} (for admin interface)
   template: src=initial_data.json.j2 dest="{{ application_path }}/fixtures/initial_data.json" backup=no
   when: django_admin
   tags: django.admin

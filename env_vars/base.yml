@@ -7,6 +7,10 @@ application_name: totalgood
 
 ssl_dest_dir: /etc/ssl
 
-ssl_crt: "{{ lookup('file', '/etc/nginx/ssl/totalgood.org.crt') }}"
+ssl_crt: "{{ lookup('file', '/home/hobs/.tg.config/totalgood.org.crt') }}"
 
-ssl_key: "{{ lookup('file', '/etc/nginx/ssl/totalgood.org.key') }}"
+ssl_key: "{{ lookup('file', '/home/hobs/.tg.config/totalgood.org.key') }}"
+
+ansible_ssh_port: "{{ lookup('env','ANSIBLE_SSH_PORT') }}"
+ansible_ssh_user: "{{ lookup('env','ANSIBLE_SSH_USER') }}"
+ansible_ssh_private_key_file: "{{ lookup('env','ANSIBLE_SSH_PRIVATE_KEY_FILE') }}"
