@@ -17,3 +17,5 @@
     - db
     - web
     - memcached
+    - dyndns
+    - scipy

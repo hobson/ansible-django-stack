@@ -1,0 +1,7 @@
+---
+
+dyndns_protocol: namecheap
+dyndns_server: dynamicdns.park-your-domain.com
+dyndns_login: totalgood.org
+dyndns_interface: eth1
+dyndns_password: "{{ lookup('env','DYNDNS_PASSWORD') }}"

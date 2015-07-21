@@ -1,0 +1,14 @@
+---
+
+- name: "Install Dynamic DNS client."
+  apt: name={{ item }} state=latest
+  with_items:
+    - ddclient
+
+- name: Create configuration file for ddclient for {{ dyndns_login }}
+  template: src=ddclient.conf.j2
+            dest=/etc/ddclient.conf
+  tags:
+    - dyndns
+    - ddclient
+
