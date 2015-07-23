@@ -1,10 +1,51 @@
 ---
 
+- name: Install Cython
+  pip: virtualenv={{ virtualenv_path }} name=Cython
+  sudo: True
+
 - name: "Install lapack, BLAS, python-scipy, scikit-learn system-wide"
   apt: name={{ item }} state=latest
+  sudo: True
   with_items:
-    - python-matplotlib
     - libblas-dev
     - gfortran
-    - python-scipy
     - liblapack-dev
+    - libjpeg-dev
+    - libhdf5-dev
+    - h5utils
+    - python-scipy
+    - python-matplotlib
+
+- name: download the CUDA SDK from nVidia
+  get_url: url=http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/cuda_7.0.28_linux.run dest=~/install_cuda.run sha256sum=d1292e9c2bbaddad24c46e0b0d15a7130831bfac0382f7159321f41ae385a5ce
+  # get_url: url=http://developer.download.nvidia.com/compute/cuda/5_5/rel/installers/cuda_5.5.22_linux_64.run dest=~/cuda_5.5.22_linux_64.run sha256sum=b997e1dbe95704e0e806e0cedc5fd370a385351fef565c7bae0917baf3a29aa4
+
+- name: run the nVidia CUDA installer
+  command: sh install_cuda.run -driver -toolkit -silent chdir=~ creates=/usr/local/cuda-7.0
+  sudo: True
+
+- name: Install python packages into virtualenv
+  pip: virtualenv={{ virtualenv_path }} name={{ item }}
+  with_items:
+    - Cython
+    - nose
+    - numpy
+    - pyOpenSSL
+    - pytz
+    - python-dateutil
+    - pandas
+    - xlrd
+    - Pillow
+    - matplotlib
+    - fuzzywuzzy
+    - python-Levenshtein
+    - progressbar2
+    - python-slugify
+    - scikit-learn
+    - h5py
+    - keras
+
+- name: Install keras.io
+  pip: virtualenv={{ virtualenv_path }} name=keras
+  sudo: True
