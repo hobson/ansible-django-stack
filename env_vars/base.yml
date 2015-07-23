@@ -4,6 +4,7 @@ git_repo: https://github.com/hobson/totalgood
 
 project_name: totalgood
 application_name: totalgood
+host_fqdn: "adder.totalgood.org"
 
 ssl_dest_dir: /etc/ssl
 

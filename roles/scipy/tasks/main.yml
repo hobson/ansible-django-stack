@@ -3,6 +3,7 @@
 - name: "Install lapack, BLAS, python-scipy, scikit-learn system-wide"
   apt: name={{ item }} state=latest
   with_items:
+    - python-matplotlib
     - libblas-dev
     - gfortran
     - python-scipy

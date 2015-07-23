@@ -4,11 +4,21 @@
   apt: name={{ item }} state=latest
   with_items:
     - ddclient
-
-- name: Create configuration file for ddclient for {{ dyndns_login }}
-  template: src=ddclient.conf.j2
-            dest=/etc/ddclient.conf
   tags:
     - dyndns
     - ddclient
 
+- name: Create configuration file for ddclient for {{ dyndns_login }}
+  template: src=ddclient.conf.j2
+            dest=/etc/ddclient.conf
+  notify:
+    - restart ddclient
+  tags:
+    - dyndns
+    - ddclient
+
+- name: Started ddclient
+  service: name=ddclient state=started
+  tags:
+    - dyndns
+    - ddclient
