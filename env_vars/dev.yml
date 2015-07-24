@@ -52,3 +52,7 @@ run_django_migrate: yes
 run_django_south_migration: no
 run_django_collectstatic: yes
 django_admin: yes
+
+# web and python paths
+virtualenv_path: "/webapps/{{ application_name }}"
+project_path: "{{ virtualenv_path }}/{{ project_name }}"

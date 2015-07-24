@@ -4,18 +4,28 @@
   pip: virtualenv={{ virtualenv_path }} name=Cython
   sudo: True
 
-- name: "Install lapack, BLAS, python-scipy, scikit-learn system-wide"
+- name: "Install matplotlib requirements"
+  apt: name={{ item }} state=latest
+  sudo: True
+  with_items:
+    - libfreetype6-dev
+    - libpng12-dev
+    - libjpeg-dev
+    - libpng++-dev
+    - libgtkimageview-dev
+    - python-gtk2-dev
+    - python-matplotlib
+
+- name: "Install scipy requirements (lapack, BLAS, python-scipy, scikit-learn)"
   apt: name={{ item }} state=latest
   sudo: True
   with_items:
     - libblas-dev
     - gfortran
     - liblapack-dev
-    - libjpeg-dev
     - libhdf5-dev
     - h5utils
     - python-scipy
-    - python-matplotlib
 
 - stat: path=~/install_cuda.run
   register: got_cuda
@@ -34,7 +44,6 @@
 - name: Install python packages into virtualenv
   pip: virtualenv={{ virtualenv_path }} name={{ item }}
   with_items:
-    - Cython
     - nose
     - numpy
     - pyOpenSSL
