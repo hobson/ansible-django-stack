@@ -1,0 +1,10 @@
+---
+
+- name: "Include cuda.yml iff True == {{ cuda }}"
+  include: cuda.yml
+  when: cuda
+
+- name: "Include opencl.yml iff True == {{ opencl }}"
+  include: opencl.yml
+  when: opencl
+

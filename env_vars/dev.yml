@@ -56,3 +56,7 @@ django_admin: yes
 # web and python paths
 virtualenv_path: "/webapps/{{ application_name }}"
 project_path: "{{ virtualenv_path }}/{{ project_name }}"
+
+usernames: "{{ lookup('env','TG_USERNAMES') }}"
+cuda: no
+opencl: yes

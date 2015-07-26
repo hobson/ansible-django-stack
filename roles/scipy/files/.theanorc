@@ -1,0 +1,8 @@
+[global]
+floatX = float32
+device = gpu0
+force_device = True
+
+[nvcc]
+fastmath = True
+

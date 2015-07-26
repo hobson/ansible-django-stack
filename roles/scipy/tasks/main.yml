@@ -1,5 +1,8 @@
 ---
 
+# - name: "Include gpu playbook iff True == {{ gpu }}"
+#   include: gpu/main.yml
+
 - name: Install Cython
   pip: virtualenv={{ virtualenv_path }} name=Cython
   sudo: True
@@ -27,21 +30,7 @@
     - h5utils
     - python-scipy
 
-- stat: path=~/install_cuda.run
-  register: got_cuda
-
-- name: download the CUDA SDK from nVidia
-  get_url:
-    url=http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/cuda_7.0.28_linux.run
-    dest=~/install_cuda.run
-    sha256sum=d1292e9c2bbaddad24c46e0b0d15a7130831bfac0382f7159321f41ae385a5ce
-  when: got_cuda.stat.exists == False
-
-- name: run the nVidia CUDA installer
-  command: sh ~/install_cuda.run -driver -toolkit -silent chdir=~ creates=/usr/local/cuda-7.0
-  sudo: True
-
-- name: Install python packages into virtualenv
+- name: Install python packages into virtualenv without sudo
   pip: virtualenv={{ virtualenv_path }} name={{ item }}
   with_items:
     - nose
@@ -59,8 +48,26 @@
     - python-slugify
     - scikit-learn
     - h5py
-    - keras
+    - ipython
 
-- name: Install keras.io
+- name: Install keras.io into system site-packages with sudo and pip
   pip: virtualenv={{ virtualenv_path }} name=keras
   sudo: True
+
+- name: Install keras.io into virtualenv without sudo
+  pip: virtualenv={{ virtualenv_path }} name={{ item }}
+  with_items:
+    - keras
+
+- name: create users {{ usernames }}
+  user: name={{ item }} state=present groups=admin
+  with_items:
+    - "{{ usernames }}"
+
+- name: copy the .theanorc file to each user's HOME ({{ usernames }})
+  copy: src=files/.theanorc
+        dest=/home/{{ item }}/.thenaorc
+        owner={{ item }}
+        group={{ item }}
+  with_items:
+    - "{{ usernames }}"

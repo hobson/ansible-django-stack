@@ -1,0 +1,5 @@
+---
+
+catalyst_download_url: http://www2.ati.com/drivers/linux-amd-14.41rc1-opencl2-sep19.zip
+catalyst_download_path: "{{ download_path }}"
+

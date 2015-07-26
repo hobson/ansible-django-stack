@@ -1,1 +1,2 @@
 totalgood.org    ansible_ssh_port=10525  ansible_ssh_user=root  ansible_ssh_private_key_file=/home/hobs/.ssh/id_rsa
+192.168.0.8      ansible_ssh_port=10525  ansible_ssh_user=root  ansible_ssh_private_key_file=/home/hobs/.ssh/id_rsa

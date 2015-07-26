@@ -1,0 +1,22 @@
+---
+
+- name: "Install OpenCL libraries and source files"
+  apt: name={{ item }} state=latest
+  sudo: True
+  with_items:
+    - ocl-icd-opencl-dev
+
+- name: Install catalyst by running template shell script on remote machine
+  script: install_catalyst.sh "{{ catalyst_download_url }}" "{{ catalyst_download_path }}"
+          creates=/usr/bin/aticonfig
+  sudo: True
+  register: install_output
+
+- debug: msg="{{ install_output.stdout }}"
+
+- debug: msg="{{ install_output.stderr }}"
+
+
+
+
+

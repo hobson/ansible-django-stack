@@ -1,0 +1,25 @@
+---
+
+- name: "Install nvidia-cuda-toolkit before opencl"
+  apt: name={{ item }} state=latest
+  sudo: True
+  with_items:
+    - nvidia-cuda-toolkit
+
+- stat: path=/tmp/install_cuda.run
+  register: got_cuda
+
+- name: download the CUDA SDK from nVidia
+  get_url:
+    url=http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/cuda_7.0.28_linux.run
+    dest=~/install_cuda.run
+    sha256sum=d1292e9c2bbaddad24c46e0b0d15a7130831bfac0382f7159321f41ae385a5ce
+  when: got_cuda.stat.exists == False
+
+- stat: path=/usr/local/cuda-7.0
+  register: ran_cuda
+
+- name: run the nVidia CUDA installer
+  command: sh /tmp/install_cuda.run -driver -toolkit -silent chdir=~ creates=/usr/local/cuda-7.0
+  sudo: True
+  when: ran_cuda.stat.exists == False
