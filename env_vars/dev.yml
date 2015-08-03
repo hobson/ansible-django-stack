@@ -60,3 +60,7 @@ project_path: "{{ virtualenv_path }}/{{ project_name }}"
 usernames: "{{ lookup('env','TG_USERNAMES') }}"
 cuda: no
 opencl: yes
+
+# used mainly to build the AMD/ATI Catalyst driver deb package
+linux_distribution: "Ubuntu"
+linux_distribution_release: "trusty"

@@ -2,10 +2,13 @@
 #
 # /etc/ddclient.conf
 #
-# was 6 lines; all on one line by HL
 
+## Use the IP Address assigned to the interface hardware
+# use=if, if=eth0
+
+# was 6 lines, converted to single line by HL
 protocol={{ dyndns_protocol }}, \
-use=if, if=eth0, \
+use=web, web=checkip.dyndns.com/, web-skip='IP Address', \
 server={{ dyndns_server }}, \
 login={{ dyndns_login }}, \
 password='{{ dyndns_password }}', \

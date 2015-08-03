@@ -1,7 +1,8 @@
 ---
 
 - name: Provision a GPU server with CUDA and keras and scipy
-  hosts: all
+  hosts:
+    - webserver
   sudo: yes
   sudo_user: root
   remote_user: root
@@ -9,6 +10,8 @@
   vars_files:
     - env_vars/base.yml
     - env_vars/dev.yml
-
+  vars:
+    - nginx_server_name: "black.totalgood.org"
+    - update_apt_cache: yes
   roles:
     - scipy

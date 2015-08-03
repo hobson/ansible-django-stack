@@ -1,20 +1,105 @@
 ---
 
+- name: "Install catalyst dependencies for {{ linux_distribution_release }}"
+  apt: "name={{ item }} state=latest"
+  with_items:
+    - mesa-utils
+    - gimp-help-common
+    - gimp-help-en
+    - libxxf86dga1
+    - zlibc
+    - libgcc-*
+    - libfreetype6-dev
+    - fontconfig
+    - dh-modaliases
+    - libcogl15
+    - xserver-xorg-dev-lts-{{ linux_distribution_release }}
+    - execstack
+
 - name: "Install OpenCL libraries and source files"
-  apt: name={{ item }} state=latest
+  apt: "name={{ item }} state=latest"
   sudo: True
   with_items:
     - ocl-icd-opencl-dev
 
-- name: Install catalyst by running template shell script on remote machine
-  script: install_catalyst.sh "{{ catalyst_download_url }}" "{{ catalyst_download_path }}"
-          creates=/usr/bin/aticonfig
+# - name: "Download catalyst zip file from AMD/ATI"
+#   command: wget --referer=http://support.amd.com -O "{{ catalyst_download_path }}/install_catalyst.zip" -c "{{ catalyst_download_url }}"
+#   sudo: True
+#   args:
+#     chdir: "{{ catalyst_download_path | quote }}/"
+#     creates: "{{ catalyst_download_path }}/install_catalyst.zip"
+
+- name: "Download catalyst deb files and source zip file archive from AMD/ATI"
+  command: "wget --referer=http://support.amd.com -O {{ catalyst_download_path }}/{{ item }} -c {{ catalyst_download_url }}/{{ item }}"
   sudo: True
-  register: install_output
+  with_items:
+    - fglrx_15.200-0ubuntu1_amd64_ub_14.01.deb
+    - fglrx-core_15.200-0ubuntu1_amd64_ub_14.01.deb
+    - fglrx-amdcccle_15.200-0ubuntu1_amd64_ub_14.01.deb
+    - fglrx-dev_15.200-0ubuntu1_amd64_ub_14.01.deb
+    - linux-amd-14.41rc1-opencl2-sep19.zip
+  args:
+    chdir: "{{ catalyst_download_path | quote }}/"
+    creates: "{{ catalyst_download_path }}/linux-amd-14.41rc1-opencl2-sep19.zip"
 
-- debug: msg="{{ install_output.stdout }}"
+# - name: Install the catalyst deb packages
+#   apt: "deb={{ catalyst_download_path | quote }}/{{ item }}"
+#   sudo: True
+#   with_items:
+#     - fglrx_15.200-0ubuntu1_amd64_ub_14.01.deb
+#     - fglrx-core_15.200-0ubuntu1_amd64_ub_14.01.deb
+#     - fglrx-amdcccle_15.200-0ubuntu1_amd64_ub_14.01.deb
+#     - fglrx-dev_15.200-0ubuntu1_amd64_ub_14.01.deb
 
-- debug: msg="{{ install_output.stderr }}"
+- name: Unzip catalyst zip file from AMD/ATI
+  command: unzip -o linux-amd-14.41rc1-opencl2-sep19.zip
+  sudo: True
+  args:
+    chdir: "{{ catalyst_download_path | quote }}/"
+    creates: "{{ catalyst_download_path }}/fglrx*"
+
+#         ls -d '/root/src'/fglrx-* | grep -E 'fglrx-[0-9]+[.][[0-9]+'
+- shell: "ls -d {{ catalyst_download_path | quote }}/fglrx-* | grep -o -E 'fglrx-[0-9]+[.][[0-9]+'"
+  register: catalyst_dirname
+  sudo: True
+
+- debug: "var={{ catalyst_download_path | quote }}/{{ catalyst_dirname.stdout | quote }}"
+
+- shell: "ls -d {{ catalyst_download_path | quote }}/fglrx-* | grep -o -E 'fglrx-[0-9]+[.][[0-9]+' | grep -o -E '[0-9]+[.][[0-9]+'"
+  register: catalyst_version
+  sudo: True
+
+- debug: "var={{ catalyst_version.stdout | quote }}"
+
+- shell: "ls {{ catalyst_download_path | quote }}/{{ catalyst_dirname.stdout | quote }}/ | grep -F amd-driver-installer"
+  register: catalyst_filename
+  sudo: True
+
+- debug: "var={{ catalyst_filename.stdout | quote }}"
+
+- name: "Make exeuctable the AMD driver install script in {{ catalyst_download_path }}"
+  command: "chmod +x {{ catalyst_download_path | quote }}/{{ catalyst_dirname.stdout | quote }}/{{ catalyst_filename.stdout | quote }}"
+  sudo: True
+  notify: stop display manager
+
+- name: "Build catalyst .deb package"
+  command: "sh {{ catalyst_download_path | quote }}/{{ catalyst_dirname.stdout | quote }}/{{ catalyst_filename.stdout | quote }} --buildpkg {{ linux_distribution }}/{{ linux_distribution_release }}"
+  args:
+    chdir: "{{ catalyst_download_path | quote }}/"
+    creates: "{{ catalyst_download_path | quote }}/fglrx_{{ catalyst_version.stdout | quote }}0-0ubuntu1_amd64.deb"
+
+- name: Install the catalyst deb package
+  apt: "deb={{ catalyst_download_path | quote }}/fglrx_{{ catalyst_version.stdout | quote }}0-0ubuntu1_amd64.deb"
+  sudo: True
+#  notify: start display manager
+
+
+
+# - name: Install catalyst by running template shell script on remote machine
+#   script: install_catalyst.sh "{{ catalyst_download_url }}" "{{ catalyst_download_path }}"
+#           creates=/usr/bin/aticonfig
+#   sudo: True
+
 
 
 

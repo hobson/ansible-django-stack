@@ -1,11 +1,40 @@
 ---
 
+- name: reduce swapiness for SSD drives
+  lineinfile: dest=/etc/sysctl.conf
+              line="vm.swappiness={{ ansible_devices.sda.rotational }}"
+              state=present
+  when: ansible_devices.sda.rotational == "0"
+  sudo: yes
+  tags: ssd
+
+- name: "Don't keep track of access times for SSD drives to reduce the numbr of writes"
+  lineinfile: dest=/etc/fstab
+              regexp='^UUID=(.*)[ ]errors=remount-ro[ ](.*)$'
+              line='UUID=\1 noatime,errors=remount-ro\2'
+              state=present
+              backup=yes
+              backrefs=yes
+  when: ansible_devices.sda.rotational == "0"
+  sudo: yes
+  tags: ssd
+
+- name: use trim to keep write speeds fast on SSD
+  copy: src=../files/trim dest=/etc/cron.daily/trim owner=root group=root mode=0755
+  when: ansible_devices.sda.rotational == "0"
+  tags: ssd
+
 - include: create_swap_file.yml
   when: create_swap_file
-  tags: swap
+  tags:
+    - swap
+    - ssd
 
-- name: Ensure bash, OpenSSl, and libssl are the latest versions
-  apt: name={{ item }} update_cache={{ update_apt_cache }} state=latest
+- name: "Ensure ~/src/ path ({{ download_path }}) exists so we have a place to store downloaded files"
+  file: "path={{ download_path }} state=directory mode=0777"
+
+- name: "Ensure bash, OpenSSl, and libssl are the latest versions"
+  apt: "name={{ item }} update_cache={{ update_apt_cache }} state=latest"
   with_items:
     - bash
     - openssl
@@ -14,9 +43,11 @@
   tags: packages
 
 - name: Install base packages
-  apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
+  apt: "name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed"
   with_items:
     - build-essential
+    - devscripts
+    - dh-buildinfo
     - ntp
     - htop
     - git

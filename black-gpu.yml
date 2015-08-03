@@ -1,0 +1,17 @@
+---
+
+- name: Provision a GPU server with Catalyst
+  hosts:
+    - webserver
+  sudo: yes
+  sudo_user: root
+  remote_user: root
+  gather_facts: False
+  vars_files:
+    - env_vars/base.yml
+    - env_vars/dev.yml
+  vars:
+    - nginx_server_name: "black.totalgood.org"
+    - update_apt_cache: yes
+  roles:
+    - gpu

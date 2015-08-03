@@ -1,0 +1,10 @@
+---
+
+- name: stop display manager
+  service: name=lightdm state=stopped
+  sudo: True
+  # sudo service lightdm stop || sudo service gdm stop || sudo service mdm stop
+
+- name: start display manager
+  service: name=lightdm state=started
+  sudo: True

@@ -1,20 +1,23 @@
 ---
 
-- name: Create a {{ application_name }} virtual machine via vagrant
-  hosts: all
+- name: Provision a {{ application_name }} server
+  hosts:
+    - webserver
   sudo: yes
   sudo_user: root
-  remote_user: vagrant
+  remote_user: root
   vars:
+    - nginx_server_name: "black.totalgood.org"
     - setup_git_repo: yes
     - update_apt_cache: yes
   vars_files:
     - env_vars/base.yml
     - env_vars/dev.yml
-    - env_vars/local.yml
 
   roles:
     - base
     - db
     - web
     - memcached
+    - dyndns
+    - scipy
