@@ -24,6 +24,7 @@
   sudo: True
   with_items:
     - libblas-dev
+    - libopenblas-dev
     - gfortran
     - liblapack-dev
     - libhdf5-dev
@@ -53,21 +54,23 @@
 - name: Install keras.io into system site-packages with sudo and pip
   pip: virtualenv={{ virtualenv_path }} name=keras
   sudo: True
+  when: install_keras
 
 - name: Install keras.io into virtualenv without sudo
   pip: virtualenv={{ virtualenv_path }} name={{ item }}
   with_items:
     - keras
+  when: install_keras
 
-- name: create users {{ usernames }}
-  user: name={{ item }} state=present groups=admin
-  with_items:
-    - "{{ usernames }}"
+# - name: create users {{ usernames }}
+#   user: name={{ item }} state=present groups=admin
+#   with_items:
+#     - "{{ usernames }}"
 
-- name: copy the .theanorc file to each user's HOME ({{ usernames }})
-  copy: src=files/.theanorc
-        dest=/home/{{ item }}/.thenaorc
-        owner={{ item }}
-        group={{ item }}
-  with_items:
-    - "{{ usernames }}"
+# - name: copy the .theanorc file to each user's HOME ({{ usernames }})
+#   copy: src=files/.theanorc
+#         dest=/home/{{ item }}/.thenaorc
+#         owner={{ item }}
+#         group={{ item }}
+#   with_items:
+#     - "{{ usernames }}"

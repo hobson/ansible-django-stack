@@ -2,4 +2,4 @@
 
 usernames: "{{ lookup('env','TG_USERNAMES') }}"
 cuda: False
-opencl: True
+opencl: False

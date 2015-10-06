@@ -2,7 +2,7 @@
 
 - name: Provision a GPU server with Catalyst
   hosts:
-    - webserver
+    - webservers
   sudo: yes
   sudo_user: root
   remote_user: root

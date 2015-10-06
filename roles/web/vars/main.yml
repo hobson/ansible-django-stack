@@ -28,8 +28,10 @@ nginx_log_level: info
 django_environment:
   DJANGO_SETTINGS_MODULE: "{{ django_settings_file }}"
   DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+  DJANGO_SECRET: "{{ django_secret_key }}"
   EMAIL_HOST: "{{ smtp_host }}"
   EMAIL_HOST_USER: "{{ smtp_user }}"
   EMAIL_HOST_PASSWORD: "{{ smtp_password }}"
   DATABASE_USER: "{{ db_user }}"
   DATABASE_PASSWORD: "{{ db_password }}"
+  DB_PASSWORD: "{{ db_password }}"

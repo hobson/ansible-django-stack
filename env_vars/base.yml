@@ -1,9 +1,7 @@
 ---
 
-git_repo: https://github.com/hobson/totalgood
-
-project_name: totalgood
-application_name: totalgood
+project_name: hackor
+application_name: hackor
 host_fqdn: "black.totalgood.org"
 
 ssl_dest_dir: /etc/ssl

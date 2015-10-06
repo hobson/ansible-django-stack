@@ -42,6 +42,8 @@
     - libssl-doc
   tags: packages
 
+- debug: msg="Using the Django application path {{ application_path }} to run manage_py commands"
+
 - name: Install base packages
   apt: "name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed"
   with_items:
