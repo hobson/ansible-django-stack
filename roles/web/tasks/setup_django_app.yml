@@ -22,18 +22,21 @@
 - name: "Install packages required by the Django app inside virtualenv"
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
 
-- name: "Ensure {{ project_path }}/{{ application_name }}/fixtures/ exists"
+- name: "Ensure { application_path }}/fixtures/ exists"
   file: path="{{ application_path }}/fixtures" state=directory
+
+- name: "Ensure {{ project_path }}/media/ exists"
+  file: path="{{ project_path }}/media" state=directory
 
 - name: "Create an initial_data fixture with a predefined Django superuser, {{ django_admin_user }} (for admin interface)"
   template: src=initial_data.json.j2 dest="{{ application_path }}/fixtures/initial_data.json" backup=no
   when: django_admin
   tags: django.admin
 
-- name: "Run the Django syncdb command in {{ application_path }} with --settings={{ django_settings_file }}"
+- name: "Run the Django syncdb command in {{ project_path }} with --settings={{ django_settings_file }}"
   django_manage:
     command: syncdb
-    app_path: "{{ application_path }}"
+    app_path: "{{ project_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
   environment: django_environment
@@ -44,7 +47,7 @@
 - name: Run Django migrations
   django_manage:
     command: migrate
-    app_path: "{{ application_path }}"
+    app_path: "{{ project_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
   environment: django_environment
@@ -54,7 +57,7 @@
 - name: Run Django collectstatic
   django_manage:
     command: collectstatic
-    app_path: "{{ application_path }}"
+    app_path: "{{ project_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
   environment: django_environment

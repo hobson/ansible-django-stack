@@ -1,7 +1,7 @@
 #!/bin/sh
 
 NAME="{{ application_name }}"
-DJANGODIR={{ application_path }}
+DJANGODIR={{ project_path }}
 SOCKFILE={{ virtualenv_path }}/run/gunicorn.sock
 USER={{ gunicorn_user }}
 GROUP={{ gunicorn_group }}
@@ -16,11 +16,11 @@ echo "Starting app $NAME in $DJANGODIR as user "`whoami`" in from script in "`pw
 
 cd $DJANGODIR
 # Activate the virtual environment.
-. ../../bin/activate
+. ../bin/activate
 
 cd $DJANGODIR
 # Set additional environment variables.
-. ../../bin/postactivate
+. ../bin/postactivate
 
 echo "finished postactivate"
 

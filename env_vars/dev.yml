@@ -3,10 +3,10 @@
 git_repo: https://github.com/hobson/totalgood
 
 # Database settings.
-db_user: "{{ application_name }}"
+db_user: "{{ lookup('env','DATABASE_USER') }}"
 db_name: "{{ application_name }}"
 # may be DATABASE_PASSWORD or DB_PASSWORD on production server
-db_password: "{{ lookup('env','DB_PASSWORD') }}"
+db_password: "{{ lookup('env','DATABASE_PASSWORD') }}"
 
 
 # Gunicorn settings. For the number of workers, a good rule to follow is
@@ -46,15 +46,15 @@ smtp_password: "{{ lookup('env','GMAIL_TG_PASSWORD') }}"
 # Application settings.
 django_settings_file: "{{ application_name }}.settings"
 # may be DJANGO_SECRET or DJANGO_SECRET_KEY on remote prod server:
-django_secret_key: "{{ lookup('env','DJANGO_SECRET') }}"
+django_secret_key: "{{ lookup('env','DJANGO_SECRET_KEY') }}"
 django_admin_user: "admin"
 django_admin_password_hashed: "{{ lookup('env','DJ_ADMIN_PASSWORD_HASHED') }}"
 
 
 run_django_syncdb: no
-run_django_migrate: no
+run_django_migrate: yes
 run_django_south_migration: no
-run_django_collectstatic: no
+run_django_collectstatic: yes
 django_admin: yes
 
 # web and python paths
