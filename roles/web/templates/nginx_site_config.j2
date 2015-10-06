@@ -10,8 +10,8 @@ server {
   listen      80;
   listen      443 ssl;
   server_name         {{ nginx_server_name }};
-  ssl_certificate     {{ ssl_dest_dir }}/{{ application_name }}.crt;
-  ssl_certificate_key {{ ssl_dest_dir }}/{{ application_name }}.key;
+  ssl_certificate     {{ ssl_dest_dir }}/{{ host_fqdn }}.crt;
+  ssl_certificate_key {{ ssl_dest_dir }}/{{ host_fqdn }}.key;
 
     client_max_body_size 4G;
 

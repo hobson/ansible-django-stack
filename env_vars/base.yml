@@ -2,7 +2,7 @@
 
 project_name: hackor
 application_name: hackor
-host_fqdn: "black.totalgood.org"
+host_fqdn: "totalgood.org"
 
 ssl_dest_dir: /etc/ssl
 download_path: /root/src

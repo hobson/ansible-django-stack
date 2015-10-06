@@ -33,7 +33,7 @@
 - name: "Ensure ~/src/ path ({{ download_path }}) exists so we have a place to store downloaded files"
   file: "path={{ download_path }} state=directory mode=0777"
 
-- name: "Ensure bash, OpenSSl, and libssl are the latest versions"
+- name: "Ensure bash, OpenSSl, and libssl are up to date"
   apt: "name={{ item }} update_cache={{ update_apt_cache }} state=latest"
   with_items:
     - bash

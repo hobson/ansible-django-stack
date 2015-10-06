@@ -51,10 +51,10 @@ django_admin_user: "admin"
 django_admin_password_hashed: "{{ lookup('env','DJ_ADMIN_PASSWORD_HASHED') }}"
 
 
-run_django_syncdb: yes
-run_django_migrate: yes
+run_django_syncdb: no
+run_django_migrate: no
 run_django_south_migration: no
-run_django_collectstatic: yes
+run_django_collectstatic: no
 django_admin: yes
 
 # web and python paths
