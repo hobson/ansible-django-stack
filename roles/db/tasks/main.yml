@@ -51,6 +51,7 @@
   register: sql_latest
 
 - name: db_restore | Restore latest DB backup if backup file found
+  sudo_user: "{{ db_user }}"
   shell: PGPASSWORD={{ db_password }} tar -xzOf {{ db_dump_filename }}.tgz {{ db_dump_filename }}.sql | psql -U{{ db_user }} --set ON_ERROR_STOP=on {{ db_name }}
   when: sql_latest.stat.exists
   ignore_errors: True
