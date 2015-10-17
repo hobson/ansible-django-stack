@@ -1,0 +1,12 @@
+#!/bin/sh
+sudo su postgres
+dropdb "{{ db_name }}"
+psql -c "CREATE USER {{ db_user }};"
+psql -c "ALTER USER {{ db_user }} WITH PASSWORD '{{ db_password }}';"
+createdb "{{ db_name }}" -O "{{ db_user }}"
+psql "{{ db_name }}" -f dump.sql
+psql "{{ db_name }}" -c "GRANT ALL ON ALL TABLES IN SCHEMA public to {{ db_user }};"
+psql "{{ db_name }}" -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public to {{ db_user }};"
+psql "{{ db_name }}" -c "GRANT ALL ON ALL FUNCTIONS IN SCHEMA public to {{ db_user }};"
+curl -O {{ db_dump_url }}/{{ db_dump_filename }}.tgz
+tar -xzOf {{ db_dump_filename }}.tgz {{ db_dump_filename }}.sql | psql "{{ db_name }}"
