@@ -41,18 +41,28 @@
 
 - name: db_restore | Receive latest DB backup
   shell: curl -O {{ db_dump_url }}/{{ db_dump_filename }}.tgz
+  sudo_user: "{{ db_user }}"
   args:
-      chdir: /root/
+      chdir: /home/{{ db_user }}
       creates: "{{ db_dump_filename }}.tgz"
   when: "{{ load_db_dump }}"
 
+- name: Change database dump file permissions
+  file: path=/home/{{ db_user }}/{{ db_dump_filename }}.tgz
+        owner={{ db_user }}
+        group={{ db_user }}
+        mode=0777
+
 - name: db_restore | Check if file exists
-  stat: path=/root/{{ db_dump_filename }}.tgz
+  stat: path=/home/{{ db_user }}/{{ db_dump_filename }}.tgz
   register: sql_latest
 
 - name: db_restore | Restore latest DB backup if backup file found
-  sudo_user: "{{ db_user }}"
-  shell: PGPASSWORD={{ db_password }} tar -xzOf {{ db_dump_filename }}.tgz {{ db_dump_filename }}.sql | psql -U{{ db_user }} --set ON_ERROR_STOP=on {{ db_name }}
+  shell: tar -xzOf {{ db_dump_filename }}.tgz {{ db_dump_filename }}.sql | psql --set ON_ERROR_STOP=on {{ db_name }}
+  sudo_user: postgres
+  args:
+      chdir: /home/{{ db_user }}
+      creates: /home/{{ db_dump_filename }}.sql
   when: sql_latest.stat.exists
-  ignore_errors: True
+  ignore_errors: False
 
