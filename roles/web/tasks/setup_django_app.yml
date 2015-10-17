@@ -29,9 +29,22 @@
   file: path="{{ project_path }}/media" state=directory
 
 - name: "Create an initial_data fixture with a predefined Django superuser, {{ django_admin_user }} (for admin interface)"
-  template: src=initial_data.json.j2 dest="{{ application_path }}/fixtures/initial_data.json" backup=no
+  template: src=initial_data.json.j2
+            dest="{{ application_path }}/fixtures/initial_data.json"
+            owner={{ gunicorn_user }}
+            group={{ gunicorn_group }}
+            mode=0755
+            backup=no
   when: django_admin
   tags: django.admin
+
+- name: "Create a local_settings.py module to override the generic settings.py"
+  template: src=local_settings.py
+            dest={{ project_path }}/{{ application_name }}/local_settings.py
+            owner={{ gunicorn_user }}
+            group={{ gunicorn_group }}
+            mode=0755
+            backup=no
 
 - name: "Run the Django syncdb command in {{ project_path }} with --settings={{ django_settings_file }}"
   django_manage:
