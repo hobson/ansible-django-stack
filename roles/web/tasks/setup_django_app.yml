@@ -39,7 +39,7 @@
   tags: django.admin
 
 - name: "Create a local_settings.py module to override the generic settings.py"
-  template: src=local_settings.py
+  template: src=local_settings.j2
             dest={{ project_path }}/{{ application_name }}/local_settings.py
             owner={{ gunicorn_user }}
             group={{ gunicorn_group }}
