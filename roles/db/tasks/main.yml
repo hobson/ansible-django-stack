@@ -72,6 +72,6 @@
   args:
       chdir: /home/{{ db_user }}
       creates: /home/{{ db_dump_filename }}.sql
-  when: sql_latest.stat.exists
+  when: sql_latest.stat.exists and {{ load_db_dump }}
   ignore_errors: False
 
