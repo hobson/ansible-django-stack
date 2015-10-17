@@ -12,8 +12,17 @@
 - name: Ensure the PostgreSQL service is running
   service: name=postgresql state=started enabled=yes
 
-- name: Ensure database is created
+- name: Ensure database is first dropped
   sudo_user: postgres
+  postgresql_db: name={{ db_name }}
+                 template='template0'
+                 state=absent
+  when: "{{ drop_db }}"
+  register: db_dropped
+
+- name: Ensure database is created (but after dropped)
+  sudo_user: postgres
+  ignore_errors: True
   postgresql_db: name={{ db_name }}
                  encoding='UTF-8'
                  lc_collate='en_US.UTF-8'

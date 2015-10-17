@@ -32,6 +32,7 @@ django_environment:
   EMAIL_HOST: "{{ smtp_host }}"
   EMAIL_HOST_USER: "{{ smtp_user }}"
   EMAIL_HOST_PASSWORD: "{{ smtp_password }}"
+  DATABASE_NAME: "{{ db_name }}"
   DATABASE_USER: "{{ db_user }}"
   DATABASE_PASSWORD: "{{ db_password }}"
   DB_PASSWORD: "{{ db_password }}"

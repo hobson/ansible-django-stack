@@ -10,7 +10,8 @@ db_password: "{{ lookup('env','DATABASE_PASSWORD') }}"
 
 db_dump_url: https://dl.dropboxusercontent.com/u/27181407/
 db_dump_filename: hackoregon_dump_2015-10-02
-load_db_dump: yes
+drop_db: no
+load_db_dump: no
 
 # Django appl settings.
 django_settings_file: "{{ application_name }}.settings"
