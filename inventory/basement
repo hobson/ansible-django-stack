@@ -1,15 +1,15 @@
-[webservers]
+[gpuservers]
 192.168.0.8
 
-[web:vars]
+[gpu:vars]
 ansible_ssh_port=10525
-ansible_ssh_user=root
+ansible_ssh_user=hobs
 ansible_ssh_private_key_file=/home/hobs/.ssh/id_rsa
 
-[gpuservers]
+[webservers]
 192.168.0.7
 
-[gpu:vars]
+[web:vars]
 ansible_ssh_port=10527
-ansible_ssh_user=root
+ansible_ssh_user=hobs
 ansible_ssh_private_key_file=/home/hobs/.ssh/id_rsa
