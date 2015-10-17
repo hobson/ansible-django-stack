@@ -43,8 +43,8 @@
   shell: curl -O {{ db_dump_url }}/{{ db_dump_filename }}.tgz
   args:
       chdir: /root/
-      creates: {{ db_dump_filename }}.tgz
-  when: {{ load_db_dump }}
+      creates: "{{ db_dump_filename }}.tgz"
+  when: "{{ load_db_dump }}"
 
 - name: db_restore | Check if file exists
   stat: path=/root/{{ db_dump_filename }}.tgz
