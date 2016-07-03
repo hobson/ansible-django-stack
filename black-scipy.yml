@@ -4,8 +4,6 @@
   hosts:
     - webservers
   sudo: yes
-  sudo_user: root
-  remote_user: root
   gather_facts: False
   vars_files:
     - env_vars/base.yml

@@ -4,8 +4,6 @@
   hosts:
     - webservers
   sudo: yes
-  sudo_user: root
-  remote_user: root
   vars:
     - nginx_server_name: "black.totalgood.org"
     - setup_git_repo: yes
