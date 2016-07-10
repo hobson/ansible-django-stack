@@ -31,7 +31,7 @@ This version adds support for Django 1.8 and the following troublesome python pa
 
 Default settings are in ```roles/role_name/vars/main.yml```.
 
-This penny-pinching, roll-your-own version of Jonathan's playbook stores secrets in OS environment variables rather than [Ansible Vault](https://docs.ansible.com/playbooks_vault.html). The ```env_vars/``` playbooks pull these env variables into ansible. A bash script listing these environment variables is in ```roles/base/files/passwords_and_keys.sh```. You'll want to copy this file to a safe location, populate it with real passwords and keys, and then run it before you launch your ansible playbook. It also makes things easier if you've set up ssh keys (passwordless logon) for all your target servers. That way, to deploy your shiny new Django app, you just...
+This penny-pinching, roll-your-own version of Jonathan's playbook stores secrets in OS environment variables rather than [Ansible Vault](https://docs.ansible.com/playbooks_vault.html). The ```vars/``` playbooks pull these env variables into ansible. A bash script listing these environment variables is in ```roles/base/files/passwords_and_keys.sh```. You'll want to copy this file to a safe location, populate it with real passwords and keys, and then run it before you launch your ansible playbook. It also makes things easier if you've set up ssh keys (passwordless logon) for all your target servers. That way, to deploy your shiny new Django app, you just...
 
     source passwords_and_keys.sh && ansible-playbook -i server_IP_address_or_hostname, -v development.yml
 
@@ -53,7 +53,7 @@ A quick way to get started is with Vagrant and VirtualBox.
 - [Vagrant](http://www.vagrantup.com/downloads.html)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-The main settings to change here is in the **env_vars/base** file, where you can configure the location of your Git project, the project name, and application name which will be used throughout the Ansible configuration.
+The main settings to change here is in the **vars/base** file, where you can configure the location of your Git project, the project name, and application name which will be used throughout the Ansible configuration.
 
 I set some default values here using my open-source app, [GlucoseTracker](https://github.com/jcalazan/glucose-tracker), so all you really have to do is type in this one command in the project root:
 ```
@@ -141,8 +141,8 @@ You can also override these values in the main playbook, for example:
     - setup_git_repo: yes
     - update_apt_cache: yes
   vars_files:
-    - env_vars/base.yml
-    - env_vars/local.yml
+    - vars/base.yml
+    - vars/local.yml
 
   roles:
     - { role: base, create_swap_file: yes, swap_file_size_kb: 1024 }

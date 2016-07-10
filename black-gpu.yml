@@ -6,8 +6,8 @@
   sudo: yes
   gather_facts: False
   vars_files:
-    - env_vars/base.yml
-    - env_vars/dev.yml
+    - vars/base.yml
+    - vars/dev.yml
   vars:
     - nginx_server_name: "black.totalgood.org"
     - update_apt_cache: yes

@@ -4,7 +4,7 @@
   hosts: all
   sudo: yes
   vars_files:
-    - env_vars/base.yml
+    - vars/base.yml
   git: repo={{ git_repo }} dest={{ project_path }} accept_hostkey=yes force=yes
   when: setup_git_repo
   tags: git
@@ -13,7 +13,7 @@
   hosts: all
   sudo: yes
   vars_files:
-    - env_vars/base.yml
+    - vars/base.yml
   command: find . -name '*.pyc' -delete
   args:
     chdir: "{{ project_path }}"

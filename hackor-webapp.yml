@@ -10,8 +10,8 @@
     - setup_git_repo: yes
     - update_apt_cache: no
   vars_files:
-    - env_vars/base.yml
-    - env_vars/dev.yml
-    - env_vars/hackor.yml
+    - vars/base.yml
+    - vars/dev.yml
+    - vars/hackor.yml
   roles:
     - web
