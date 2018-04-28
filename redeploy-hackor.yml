@@ -1,8 +1,6 @@
 ---
 - hosts: totalgood.org
   sudo: yes
-  sudo_user: root
-  remote_user: root
   vars:
     - ansible_port: 10527
     - ansible_ssh_port: 10527
@@ -13,9 +11,9 @@
     - setup_git_repo: yes
     - update_apt_cache: no
   vars_files:
-    - env_vars/base.yml
-    - env_vars/dev.yml
-    - env_vars/hackor.yml
+    - vars/base.yml
+    - vars/dev.yml
+    - vars/hackor.yml
   tasks:
     # pull from origin and delete pyc files
     - include: roles/web/tasks/setup_git_repo.yml

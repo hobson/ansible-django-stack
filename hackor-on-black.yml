@@ -4,16 +4,14 @@
   hosts:
     - webservers
   sudo: yes
-  sudo_user: root
-  remote_user: root
   vars:
     - nginx_server_name: "black.totalgood.org"
     - setup_git_repo: yes
     - update_apt_cache: no
   vars_files:
-    - env_vars/base.yml
-    - env_vars/dev.yml
-    - env_vars/hackor.yml
+    - vars/base.yml
+    - vars/dev.yml
+    - vars/hackor.yml
   roles:
     - base
     - db

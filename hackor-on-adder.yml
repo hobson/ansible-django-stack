@@ -1,21 +1,20 @@
 ---
-- hosts: 192.168.0.7
+- name: Provision the adder.totalgood.org server for {{ application_name }} webapp
+  hosts:
+    - webservers
   sudo: yes
-  sudo_user: root
-  remote_user: root
   vars:
     - ansible_port: 10527
     - ansible_ssh_port: 10527
     - ansible_user: root
-    - ansible_ssh_user: root
     - ansible_ssh_private_key_file: /home/hobs/.ssh/id_rsa
     - nginx_server_name: "adder.totalgood.org"
     - setup_git_repo: yes
     - update_apt_cache: no
   vars_files:
-    - env_vars/base.yml
-    - env_vars/dev.yml
-    - env_vars/hackor.yml
+    - vars/base.yml
+    - vars/dev.yml
+    - vars/hackor.yml
   roles:
     - base
     - db

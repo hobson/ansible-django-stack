@@ -3,10 +3,8 @@
 - name: Setup the Git repo and pull -f the latest
   hosts: all
   sudo: yes
-  sudo_user: root
-  remote_user: root
   vars_files:
-    - env_vars/base.yml
+    - vars/base.yml
   git: repo={{ git_repo }} dest={{ project_path }} accept_hostkey=yes force=yes
   when: setup_git_repo
   tags: git
@@ -14,10 +12,8 @@
 - name: Delete all .pyc files
   hosts: all
   sudo: yes
-  sudo_user: root
-  remote_user: root
   vars_files:
-    - env_vars/base.yml
+    - vars/base.yml
   command: find . -name '*.pyc' -delete
   args:
     chdir: "{{ project_path }}"

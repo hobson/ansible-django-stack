@@ -9,9 +9,9 @@
     - setup_git_repo: yes
     - update_apt_cache: yes
   vars_files:
-    - env_vars/base.yml
-    - env_vars/dev.yml
-    - env_vars/local.yml
+    - vars/base.yml
+    - vars/dev.yml
+    - vars/local.yml
 
   roles:
     - base

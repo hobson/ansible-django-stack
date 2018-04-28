@@ -1,12 +1,13 @@
 ---
-
+# a new empty webapp for prioritizing projects/ideas
 git_repo: https://github.com/hobson/totalgood
 
 # Database settings.
 db_user: "{{ lookup('env','DATABASE_USER') }}"
 db_name: "{{ lookup('env','DATABASE_NAME') }}"
 # may be DATABASE_PASSWORD or DB_PASSWORD on production server
-db_password: "{{ lookup('env','DATABASE_PASSWORD') }}"
+db_password: "{{ lookup('env','DB_PASSWORD') }}"
+db_password: "{{ lookup('env','DB_PASSWORD') }}"
 
 db_dump_url: https://dl.dropboxusercontent.com/u/27181407/
 db_dump_filename: hackoregon_dump_2015-10-02
