@@ -1,8 +1,9 @@
 ---
 
+include: secrets.yml
 git_repo: https://github.com/aira/aichat.git
 
-project_name: website
+project_name: aichat
 application_name: aichat
 
 # Note that this PPA doesn't guarantee timely updates in case of security issues.
